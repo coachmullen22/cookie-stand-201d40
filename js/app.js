@@ -9,17 +9,13 @@ var pike = {
   location: '1st and Pike',
   customersEachHour: [],
   cookiesSoldEachHour: [],
-  dailyTotalCookies: [],
+  dailyTotalCookies: 0
 }
-
-
-
-pike.getCustomersPerHour = 
-function() {
+/*
+pike.getCustomersPerHour = function() {
   for (var i = 0; i < hours.length; i++) {
-    this.customersPerHour.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour + 1) + this.minCustomersPerHour));
-    console.maxCustomersPerHour();
-    
+    this.customersEachHour.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour + 1) + this.minCustomersPerHour));
+    console.getCustomersPerHour();
   }
 }
 pike.getCustomersPerHour(pike.minCustomersPerHour, pike.maxCustomersPerHour)
@@ -57,3 +53,44 @@ pike.render = function() {
 }
 
 pike.render();
+
+/*
+//table
+var allStores = [];
+
+var stores =
+
+function Hours() {
+  this.name = name;
+}
+
+function renderAllCats() {
+  for (allCats[i].render()
+}
+
+Cat.prototype.render = function() {
+  //make a tr
+  var trEl = document.createElement('tr');
+  //make a td
+  var tdEl = document.createElement('td');
+  //give it content
+  tdEl.textContent = this.name;
+  //apppend it to the tr
+  trEl.appendChild(tdEl);
+
+  //make a td
+  tdEl = document.createElement('td');
+  //give it content
+  tdEl.textContent = this.color;
+  //apppend it to the tr
+  trEl.appendChild(tdEl);
+
+  //make a td
+
+  //give it content
+  //apppend it to the tr
+
+  //append the tr to the table
+catTable.appendChild(trEl);
+}
+*/
