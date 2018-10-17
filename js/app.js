@@ -70,22 +70,21 @@ Store.prototype.render = function() {
     tdEl.textContent = this.cookiesPerHourArray[i];
     trEl.appendChild(tdEl);
   }
-
-  for (i = 0; i < hours.length; i++) {
-    tdEl = document.createElement('th');
-    tdEl.textContent = this.dailyTotalCookies;
-    trEl.appendChild(tdEl);
-  }
+  //adding multiple columns with same totals per store (or hrs)
+  tdEl = document.createElement('th');
+  tdEl.textContent = this.dailyTotalCookies;
+  trEl.appendChild(tdEl);
   storeTable.appendChild(trEl);
 }
 //Table Footer Row
+
 function makeFooterRow() {
   var trEl = document.createElement('tr');
   var thEl = document.createElement('th');
-  thEl.textContent = 'Hourly Sales (All Locations)';
+  thEl.textContent = 'All Stores';
   trEl.appendChild(thEl);
 
-//Grand Totals
+  //Totals (added by column)
   var totalOfTotals = 0;
   var hourlyTotal = 0;
   for (var i = 0; i < hours.length; i++) {
@@ -95,20 +94,17 @@ function makeFooterRow() {
       totalOfTotals += allStores[j].cookiesPerHourArray[i];
     }
     thEl = document.createElement('th');
-    tdEl.textContent = hourlyTotal;
+    thEl.textContent = hourlyTotal;
     trEl.appendChild(thEl);
   }
 
-  for (var i =0; i < hours.length; i++) {
-
-  }
   thEl = document.createElement('th');
   thEl.textContent = totalOfTotals;
   trEl.appendChild(thEl);
-
+  
   storeTable.appendChild(trEl);
-
 }
+
 console.table(allStores);
 
 function renderAllStores() {
