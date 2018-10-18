@@ -1,96 +1,99 @@
 'use strict';
 
+var allStores = [];
+var storeTable = document.getElementById('salesTable'); //html id for data table is 'salesTable'
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 
-var pike = {
-  minCustomersPerHour: 23,
-  maxCustomersPerHour: 65,
-  avgCookiesPerCustomer: 6.3,
-  location: '1st and Pike',
-  customersEachHour: [],
-  cookiesSoldEachHour: [],
-  dailyTotalCookies: 0
+function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
+  this.location = location;
+  this.minCustomersPerHour = minCustomersPerHour;
+  this.maxCustomersPerHour = maxCustomersPerHour;
+  this.avgCookiesPerCustomer = avgCookiesPerCustomer;
+  this.customersPerHourArray = [];
+  this.cookiesPerHourArray = [];
+  this.dailyTotalCookies = 0;
+  this.customersPerHour();
+  this.cookiesPerHour();
+  allStores.push(this);
 }
-/*
-pike.getCustomersPerHour = function() {
+
+//Replaces table creation code rows
+function newElement(type, content, parent) {
+  var element = document.createElement(type);
+  element.textContent = content;
+  parent.appendChild(element);
+}
+
+Store.prototype.customersPerHour = function() {
   for (var i = 0; i < hours.length; i++) {
-    this.customersEachHour.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour + 1) + this.minCustomersPerHour));
-    console.getCustomersPerHour();
+    this.customersPerHourArray.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour) + 1) + this.minCustomersPerHour); //from MDN docs
   }
 }
-pike.getCustomersPerHour(pike.minCustomersPerHour, pike.maxCustomersPerHour)
 
-pike.cookiesSoldEachHour = function() {
-  pike.getCustomersPerHour();
+Store.prototype.cookiesPerHour = function() {
+  this.dailyTotalCookies = 0
   for(var i = 0; i < hours.length; i++) {
-    //calc the cookies
-    var hourlyCookies = Math.ceil(this.customersEachHour[i] * this.avgCookiesPerCustomer);
-    //put the numbers into an array
-    this.cookiesSoldEachHour.push(hourlyCookies);
-    //calculate daily total
+    var hourlyCookies = Math.ceil(this.customersPerHourArray[i] * this.avgCookiesPerCustomer);
+    this.cookiesPerHourArray.push(hourlyCookies);
     this.dailyTotalCookies += hourlyCookies;
   }
 }
 
-pike.render = function() {
-  this.cookiesSoldEachHour();
-  //grab element from the DOM
-  var pikeUl = document.getElementById('pikeplace');
-  //console.log(pikeUl, '<pikeUl>');
-  for (var i = 0; i < this.hours.length; i++) {
-    //create an element
-    console.log(this.hours[i], ' Cookies Sold');
-    //give it content
-    var liEl = document.createElement('li');
-    console.log(liEl, 'liEl');
-    //append it
-    liEl.textContent = `${hours[i]}: ${this.cookiesSoldEachHour[i]}`;
-    pikeUl.appendChild(liEl);
-  }
-  liEl = document.createElement('li');
-  liEl.textContent = `Total: ${this.dailyTotalCookies} cookies`;
-  pikeUl.appendChild(liEl);
-}
+new Store('1st & Pike', 23, 65, 6.3);
+new Store('SeaTac', 3, 24, 1.2);
+new Store('Seattle Center', 11, 38,3.7);
+new Store('Capital Hill', 20, 38, 2.3);
+new Store('Alki', 2, 16, 4.6);
 
-pike.render();
-
-/*
-//table
-var allStores = [];
-
-var stores =
-
-function Hours() {
-  this.name = name;
-}
-
-function renderAllCats() {
-  for (allCats[i].render()
-}
-
-Cat.prototype.render = function() {
-  //make a tr
+//Make Table Header...be careful
+function makeHeaderRow() {
   var trEl = document.createElement('tr');
-  //make a td
-  var tdEl = document.createElement('td');
-  //give it content
-  tdEl.textContent = this.name;
-  //apppend it to the tr
-  trEl.appendChild(tdEl);
+  newElement('th', 'Location', trEl)
+  for (var i = 0; i < hours.length; i++) {
+    newElement('th', hours[i], trEl)
+  }
+  newElement('th', 'Daily Totals', trEl)
 
-  //make a td
-  tdEl = document.createElement('td');
-  //give it content
-  tdEl.textContent = this.color;
-  //apppend it to the tr
-  trEl.appendChild(tdEl);
-
-  //make a td
-
-  //give it content
-  //apppend it to the tr
-
-  //append the tr to the table
-catTable.appendChild(trEl);
+  storeTable.appendChild(trEl);
 }
-*/
+
+//Make Table Data Section
+Store.prototype.render = function() {
+  var trEl = document.createElement('tr');
+  newElement('th', this.location, trEl)
+  for (var i = 0; i < hours.length; i++) {
+    newElement('td', this.cookiesPerHourArray[i], trEl)
+  }
+  newElement('th', this.dailyTotalCookies, trEl)
+
+  storeTable.appendChild(trEl);
+}
+
+//Table Footer Row
+function makeFooterRow() {
+  var trEl = document.createElement('tr');
+  newElement('th', 'All Stores', trEl)
+  var totalOfTotals = 0;
+  var hourlyTotal = 0;
+  for (var i = 0; i < hours.length; i++) {
+    hourlyTotal = 0;
+    for (var j = 0; j < allStores.length; j++) {
+      hourlyTotal += allStores[j].cookiesPerHourArray[i];
+      totalOfTotals += allStores[j].cookiesPerHourArray[i];
+    }
+    newElement('th', hourlyTotal, trEl)
+  }
+  newElement('th', totalOfTotals, trEl)
+
+  storeTable.appendChild(trEl);
+}
+console.table(allStores);
+
+function renderAllStores() {
+  for (var i in allStores) {
+    allStores[i].render();
+  }
+}
+makeHeaderRow();
+renderAllStores();
+makeFooterRow();
