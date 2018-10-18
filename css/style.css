@@ -1,0 +1,9 @@
+fieldset {
+  border: 3px groove brown;
+  padding: 10px; 
+}
+
+legend {
+  border: 2px groove brown;
+  padding: 3px;
+}

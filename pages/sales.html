@@ -11,8 +11,32 @@
   </header>
 
   <body>
+    //location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer
+    <form id="add-store">
+      <fieldset>
+        <legend>Add or Edit Stores</legend>
+
+        <label for="location">Location Name:</label>
+        <input name="location" type="text" size="15" required/>
+
+        <label for="minCustomersPerHour">Min Customers per Hour</label>
+        <input name="minCustomersPerHour" type="number" size="15" required/>
+
+        <label for="maxCustomersPerHour">Max Customers per Hour</label>
+        <input name="maxCustomersPerHour" type="number" size="15" required/>
+
+        <label for="avgCookiesPerCustomer">Avg Cookie Order</label>
+        <input name="avgCookiesPerCustomer" type="text" size="15" required/>
+
+        <button type="submit">Create/Edit Store</button>
+
+      </fieldset>
+    </form>
+    
     <h2>Sales Projection Table</h2>
     <table id="salesTable"></table>
+
+
 
     <!--
     <h2>Pike Place Market </h2>
