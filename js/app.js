@@ -17,6 +17,13 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
   allStores.push(this);
 }
 
+//Replaces table creation code rows
+function newElement(type, content, parent) {
+  var element = document.createElement(type);
+  element.textContent = content;
+  parent.appendChild(element);
+}
+
 Store.prototype.customersPerHour = function() {
   for (var i = 0; i < hours.length; i++) {
     this.customersPerHourArray.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour) + 1) + this.minCustomersPerHour); //from MDN docs
@@ -41,19 +48,11 @@ new Store('Alki', 2, 16, 4.6);
 //Make Table Header...be careful
 function makeHeaderRow() {
   var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Location';
-  trEl.appendChild(thEl);
-
+  newElement('th', 'Location', trEl)
   for (var i = 0; i < hours.length; i++) {
-    thEl = document.createElement('th');
-    thEl.textContent = (hours[i]);
-    trEl.appendChild(thEl);
+    newElement('th', hours[i], trEl)
   }
-
-  thEl = document.createElement('th');
-  thEl.textContent = 'Daily Totals';
-  trEl.appendChild(thEl);
+  newElement('th', 'Daily Totals', trEl)
 
   storeTable.appendChild(trEl);
 }
@@ -61,30 +60,19 @@ function makeHeaderRow() {
 //Make Table Data Section
 Store.prototype.render = function() {
   var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = this.location;
-  trEl.appendChild(thEl);
-
+  newElement('th', this.location, trEl)
   for (var i = 0; i < hours.length; i++) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = this.cookiesPerHourArray[i];
-    trEl.appendChild(tdEl);
+    newElement('td', this.cookiesPerHourArray[i], trEl)
   }
-  //adding multiple columns with same totals per store (or hrs)
-  tdEl = document.createElement('th');
-  tdEl.textContent = this.dailyTotalCookies;
-  trEl.appendChild(tdEl);
+  newElement('th', this.dailyTotalCookies, trEl)
+
   storeTable.appendChild(trEl);
 }
-//Table Footer Row
 
+//Table Footer Row
 function makeFooterRow() {
   var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = 'All Stores';
-  trEl.appendChild(thEl);
-
-  //Totals (added by column)
+  newElement('th', 'All Stores', trEl)
   var totalOfTotals = 0;
   var hourlyTotal = 0;
   for (var i = 0; i < hours.length; i++) {
@@ -93,18 +81,12 @@ function makeFooterRow() {
       hourlyTotal += allStores[j].cookiesPerHourArray[i];
       totalOfTotals += allStores[j].cookiesPerHourArray[i];
     }
-    thEl = document.createElement('th');
-    thEl.textContent = hourlyTotal;
-    trEl.appendChild(thEl);
+    newElement('th', hourlyTotal, trEl)
   }
+  newElement('th', totalOfTotals, trEl)
 
-  thEl = document.createElement('th');
-  thEl.textContent = totalOfTotals;
-  trEl.appendChild(thEl);
-  
   storeTable.appendChild(trEl);
 }
-
 console.table(allStores);
 
 function renderAllStores() {
@@ -115,13 +97,3 @@ function renderAllStores() {
 makeHeaderRow();
 renderAllStores();
 makeFooterRow();
-
-/*This is from class discussion. I can add this helper function to replace longer code
-function newElement(type, content, parent) {
-  var element = document.createElement('th');
-  element.textContent = content
-  parent.appendChild(element);
-}
-
-newElement('th, 'CookieSales', trEl)
-*/
