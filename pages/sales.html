@@ -12,21 +12,19 @@
 
   <body>
     //location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer
+
     <form id="add-store">
       <fieldset>
         <legend>Add or Edit Stores</legend>
 
         <label for="location">Location Name:</label>
         <input name="location" type="text" size="15" required/>
-
-        <label for="minCustomersPerHour">Min Customers per Hour</label>
-        <input name="minCustomersPerHour" type="number" size="15" required/>
-
-        <label for="maxCustomersPerHour">Max Customers per Hour</label>
-        <input name="maxCustomersPerHour" type="number" size="15" required/>
-
-        <label for="avgCookiesPerCustomer">Avg Cookie Order</label>
-        <input name="avgCookiesPerCustomer" type="text" size="15" required/>
+        <label for="min-customers-per-hour">Min Customers per Hour</label>
+        <input name="min-customers-per-hour" type="number" size="15" required/>
+        <label for="max-customers-per-hour">Max Customers per Hour</label>
+        <input name="max-customers-per-hour" type="number" size="15" required/>
+        <label for="avg-cookies-per-customer">Avg Cookie Order</label>
+        <input name="avg-cookies-per-customer" type="text" size="15" required/>
 
         <button type="submit">Create/Edit Store</button>
 
@@ -36,24 +34,23 @@
     <h2>Sales Projection Table</h2>
     <table id="salesTable"></table>
 
-
-
-    <!--
-    <h2>Pike Place Market </h2>
-    <ol id="pikeplace"></ol>
-
-    <h2>SeaTac Airport</h2>
-    <ol id="seatac"></ol>
-
-    <h2>Seattle Center</h2>
-    <ol id="seacenter"></ol>
-
-    <h2>Capitol Hill</h2>
-    <ol id="caphill"></ol>
-
-    <h2>Alki</h2>
-    <ol id="alki"></ol>
-    -->
     <script src="../js/app.js"></script>
   </body>
 </html>
+
+<!--
+        <h2>Pike Place Market </h2>
+        <ol id="pikeplace"></ol>
+    
+        <h2>SeaTac Airport</h2>
+        <ol id="seatac"></ol>
+    
+        <h2>Seattle Center</h2>
+        <ol id="seacenter"></ol>
+    
+        <h2>Capitol Hill</h2>
+        <ol id="caphill"></ol>
+    
+        <h2>Alki</h2>
+        <ol id="alki"></ol>
+-->

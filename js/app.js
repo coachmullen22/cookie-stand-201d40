@@ -3,6 +3,7 @@
 var allStores = [];
 var storeTable = document.getElementById('salesTable'); //html id for data table is 'salesTable'
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
+var addStoreForm = document.getElementById('add-store');
 
 function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
   this.location = location;
@@ -15,13 +16,6 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
   this.customersPerHour();
   this.cookiesPerHour();
   allStores.push(this);
-}
-
-//Replaces table creation code rows
-function newElement(type, content, parent) {
-  var element = document.createElement(type);
-  element.textContent = content;
-  parent.appendChild(element);
 }
 
 Store.prototype.customersPerHour = function() {
@@ -44,6 +38,33 @@ new Store('SeaTac', 3, 24, 1.2);
 new Store('Seattle Center', 11, 38,3.7);
 new Store('Capital Hill', 20, 38, 2.3);
 new Store('Alki', 2, 16, 4.6);
+
+function handleAddStoreSubmit(event) {
+  event.preventDefault();
+  var location = event.target.location.value;
+  var minCust = event.target.min-customers-per-hour.value;
+  var maxCust = event.target.max-customers-per-hour.value;
+  var avgCookies = event.target.avg-cookies-per-customer.value;
+
+  new Store(location, minCust, maxCust, avgCookies);
+
+  event.target.location.value = null;
+  event.target.minCust.value = null;
+  event.target.maxCust.value = null;
+  event.target.avgCookies.value = null;
+}
+
+//Replaces table creation code rows
+function newElement(type, content, parent) {
+  var element = document.createElement(type);
+  element.textContent = content;
+  parent.appendChild(element);
+}
+
+/*Store.handleForm = function(e) {
+  e.preventDefault();
+}
+*/
 
 //Make Table Header...be careful
 function makeHeaderRow() {
@@ -68,6 +89,8 @@ Store.prototype.render = function() {
 
   storeTable.appendChild(trEl);
 }
+
+
 
 //Table Footer Row
 function makeFooterRow() {
@@ -94,6 +117,8 @@ function renderAllStores() {
     allStores[i].render();
   }
 }
+
+addStoreForm.addEventListener('submit', handleAddStoreSubmit);
 makeHeaderRow();
 renderAllStores();
 makeFooterRow();
