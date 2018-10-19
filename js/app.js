@@ -20,14 +20,15 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
 
 Store.prototype.customersPerHour = function() {
   for (var i = 0; i < hours.length; i++) {
-    this.customersPerHourArray.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour) + 1) + this.minCustomersPerHour); //from MDN docs
+    this.customersPerHourArray.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour + 1)) + this.minCustomersPerHour); //from MDN docs
+    console.log();
   }
 }
 
 Store.prototype.cookiesPerHour = function() {
   this.dailyTotalCookies = 0
   for(var i = 0; i < hours.length; i++) {
-    var hourlyCookies = Math.ceil(this.customersPerHourArray[i] * this.avgCookiesPerCustomer);
+    var hourlyCookies = Math.floor(this.customersPerHourArray[i] * this.avgCookiesPerCustomer);
     this.cookiesPerHourArray.push(hourlyCookies);
     this.dailyTotalCookies += hourlyCookies;
   }
@@ -42,16 +43,22 @@ new Store('Alki', 2, 16, 4.6);
 function handleAddStoreSubmit(event) {
   event.preventDefault();
   var location = event.target.location.value;
-  var minCust = event.target.min-customers-per-hour.value;
-  var maxCust = event.target.max-customers-per-hour.value;
-  var avgCookies = event.target.avg-cookies-per-customer.value;
+  var minCust = parseInt(event.target['min-customers-per-hour'].value);
+  var maxCust = parseInt(event.target['max-customers-per-hour'].value);
+  var avgCookies = parseInt(event.target['avg-cookies-per-customer'].value);
 
   new Store(location, minCust, maxCust, avgCookies);
 
   event.target.location.value = null;
-  event.target.minCust.value = null;
-  event.target.maxCust.value = null;
-  event.target.avgCookies.value = null;
+  event.target['min-customers-per-hour'].value = null;
+  event.target['max-customers-per-hour'].value = null;
+  event.target['avg-cookies-per-customer'].value = null;
+
+  var newStore = allStores[allStores.length-1];
+
+  newStore.render();
+
+  render
 }
 
 //Replaces table creation code rows
