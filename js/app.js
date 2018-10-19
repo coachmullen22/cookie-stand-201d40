@@ -125,6 +125,7 @@ function renderAllStores() {
   }
 }
 
+
 addStoreForm.addEventListener('submit', handleAddStoreSubmit);
 makeHeaderRow();
 renderAllStores();
