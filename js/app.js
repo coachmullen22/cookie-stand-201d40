@@ -124,7 +124,7 @@ function renderAllStores() {
     allStores[i].render();
   }
 }
-
+//need to add tbody and tfoot render functions
 addStoreForm.addEventListener('submit', handleAddStoreSubmit);
 makeHeaderRow();
 renderAllStores();
