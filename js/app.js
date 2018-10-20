@@ -58,7 +58,7 @@ function handleAddStoreSubmit(event) {
 
   newStore.render();
 
-  render
+  //render here?
 }
 
 //Replaces table creation code rows
@@ -96,8 +96,6 @@ Store.prototype.render = function() {
 
   storeTable.appendChild(trEl);
 }
-
-
 
 //Table Footer Row
 function makeFooterRow() {
