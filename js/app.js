@@ -1,9 +1,9 @@
 'use strict';
 
 var allStores = [];
-var storeTableHead = document.getElementById('tableHead'); //html id for data table is 'salesTable'
-var storeTableFoot = document.getElementById('tableFoot'); //html id for data table is 'salesTable'
-var storeTableBody = document.getElementById('tableBody'); //html id for data table is 'salesTable'
+var storeTableHead = document.getElementById('tableHead');
+var storeTableFoot = document.getElementById('tableFoot');
+var storeTableBody = document.getElementById('tableBody');
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 var addStoreForm = document.getElementById('add-store');
 
@@ -42,15 +42,14 @@ new Store('Seattle Center', 11, 38,3.7);
 new Store('Capital Hill', 20, 38, 2.3);
 new Store('Alki', 2, 16, 4.6);
 
-
-//Replaces table creation code rows
+//Replaces repetitive table creation code
 function newElement(type, content, parent) {
   var element = document.createElement(type);
   element.textContent = content;
   parent.appendChild(element);
 }
 
-//Make Table Header...be careful
+//Make Table Header
 function makeHeaderRow() {
   var trEl = document.createElement('tr');
   newElement('th', 'Location', trEl)
@@ -61,6 +60,39 @@ function makeHeaderRow() {
 
   storeTableHead.appendChild(trEl);
 }
+
+//Make Table Body Section
+Store.prototype.render = function() {
+  var trEl = document.createElement('tr');
+  newElement('th', this.location, trEl)
+  for (var i = 0; i < hours.length; i++) {
+    newElement('td', this.cookiesPerHourArray[i], trEl)
+  }
+  newElement('th', this.dailyTotalCookies, trEl)
+  
+  storeTableBody.appendChild(trEl);
+}
+
+function handleAddStoreSubmit(event) {
+  event.preventDefault();
+  var location = event.target.location.value;
+  var minCust = parseInt(event.target['min-customers-per-hour'].value);
+  var maxCust = parseInt(event.target['max-customers-per-hour'].value);
+  var avgCookies = parseInt(event.target['avg-cookies-per-customer'].value);
+
+  new Store(location, minCust, maxCust, avgCookies);
+
+  event.target.location.value = null;
+  event.target['min-customers-per-hour'].value = null;
+  event.target['max-customers-per-hour'].value = null;
+  event.target['avg-cookies-per-customer'].value = null;
+
+  var newStore = allStores[allStores.length-1];
+
+  newStore.render();
+}
+
+addStoreForm.addEventListener('submit', handleAddStoreSubmit);
 
 //Table Footer Row
 function makeFooterRow() {
@@ -95,26 +127,6 @@ Store.prototype.render = function() {
   storeTableBody.appendChild(trEl);
 }
 
-function handleAddStoreSubmit(event) {
-  event.preventDefault();
-  var location = event.target.location.value;
-  var minCust = parseInt(event.target['min-customers-per-hour'].value);
-  var maxCust = parseInt(event.target['max-customers-per-hour'].value);
-  var avgCookies = parseInt(event.target['avg-cookies-per-customer'].value);
-
-  new Store(location, minCust, maxCust, avgCookies);
-
-  event.target.location.value = null;
-  event.target['min-customers-per-hour'].value = null;
-  event.target['max-customers-per-hour'].value = null;
-  event.target['avg-cookies-per-customer'].value = null;
-
-  var newStore = allStores[allStores.length-1];
-
-  newStore.render();
-}
-
-addStoreForm.addEventListener('submit', handleAddStoreSubmit);
 
 function renderAllStores() {
   for (var i in allStores) {
