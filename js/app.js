@@ -1,7 +1,9 @@
 'use strict';
 
 var allStores = [];
-var storeTable = document.getElementById('salesTable'); //html id for data table is 'salesTable'
+var storeTableHead = document.getElementById('tableHead'); //html id for data table is 'salesTable'
+var storeTableFoot = document.getElementById('tableFoot'); //html id for data table is 'salesTable'
+var storeTableBody = document.getElementById('tableBody'); //html id for data table is 'salesTable'
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 var addStoreForm = document.getElementById('add-store');
 
@@ -40,26 +42,6 @@ new Store('Seattle Center', 11, 38,3.7);
 new Store('Capital Hill', 20, 38, 2.3);
 new Store('Alki', 2, 16, 4.6);
 
-function handleAddStoreSubmit(event) {
-  event.preventDefault();
-  var location = event.target.location.value;
-  var minCust = parseInt(event.target['min-customers-per-hour'].value);
-  var maxCust = parseInt(event.target['max-customers-per-hour'].value);
-  var avgCookies = parseInt(event.target['avg-cookies-per-customer'].value);
-
-  new Store(location, minCust, maxCust, avgCookies);
-
-  event.target.location.value = null;
-  event.target['min-customers-per-hour'].value = null;
-  event.target['max-customers-per-hour'].value = null;
-  event.target['avg-cookies-per-customer'].value = null;
-
-  var newStore = allStores[allStores.length-1];
-
-  newStore.render();
-
-  render
-}
 
 //Replaces table creation code rows
 function newElement(type, content, parent) {
@@ -67,11 +49,6 @@ function newElement(type, content, parent) {
   element.textContent = content;
   parent.appendChild(element);
 }
-
-/*Store.handleForm = function(e) {
-  e.preventDefault();
-}
-*/
 
 //Make Table Header...be careful
 function makeHeaderRow() {
@@ -82,22 +59,8 @@ function makeHeaderRow() {
   }
   newElement('th', 'Daily Totals', trEl)
 
-  storeTable.appendChild(trEl);
+  storeTableHead.appendChild(trEl);
 }
-
-//Make Table Data Section
-Store.prototype.render = function() {
-  var trEl = document.createElement('tr');
-  newElement('th', this.location, trEl)
-  for (var i = 0; i < hours.length; i++) {
-    newElement('td', this.cookiesPerHourArray[i], trEl)
-  }
-  newElement('th', this.dailyTotalCookies, trEl)
-
-  storeTable.appendChild(trEl);
-}
-
-
 
 //Table Footer Row
 function makeFooterRow() {
@@ -115,17 +78,50 @@ function makeFooterRow() {
   }
   newElement('th', totalOfTotals, trEl)
 
-  storeTable.appendChild(trEl);
+  storeTableFoot.appendChild(trEl);
 }
 console.table(allStores);
+
+
+//Make Table Body (Data) Section
+Store.prototype.render = function() {
+  var trEl = document.createElement('tr');
+  newElement('th', this.location, trEl)
+  for (var i = 0; i < hours.length; i++) {
+    newElement('td', this.cookiesPerHourArray[i], trEl)
+  }
+  newElement('th', this.dailyTotalCookies, trEl)
+
+  storeTableBody.appendChild(trEl);
+}
+
+function handleAddStoreSubmit(event) {
+  event.preventDefault();
+  var location = event.target.location.value;
+  var minCust = parseInt(event.target['min-customers-per-hour'].value);
+  var maxCust = parseInt(event.target['max-customers-per-hour'].value);
+  var avgCookies = parseInt(event.target['avg-cookies-per-customer'].value);
+
+  new Store(location, minCust, maxCust, avgCookies);
+
+  event.target.location.value = null;
+  event.target['min-customers-per-hour'].value = null;
+  event.target['max-customers-per-hour'].value = null;
+  event.target['avg-cookies-per-customer'].value = null;
+
+  var newStore = allStores[allStores.length-1];
+
+  newStore.render();
+}
+
+addStoreForm.addEventListener('submit', handleAddStoreSubmit);
 
 function renderAllStores() {
   for (var i in allStores) {
     allStores[i].render();
   }
 }
-//need to add tbody and tfoot render functions
-addStoreForm.addEventListener('submit', handleAddStoreSubmit);
+
+makeFooterRow();
 makeHeaderRow();
 renderAllStores();
-makeFooterRow();
