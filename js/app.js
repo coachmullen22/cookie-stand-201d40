@@ -69,7 +69,7 @@ Store.prototype.render = function() {
     newElement('td', this.cookiesPerHourArray[i], trEl)
   }
   newElement('th', this.dailyTotalCookies, trEl)
-  
+
   storeTableBody.appendChild(trEl);
 }
 
