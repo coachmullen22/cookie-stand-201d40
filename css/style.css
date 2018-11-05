@@ -2,6 +2,10 @@ body {
   background-color: aquamarine;
 }
 
+header {
+  text-align: center;
+}
+
 fieldset {
   border: 3px groove brown;
   border-radius: 10px;
@@ -16,11 +20,11 @@ legend {
 }
 
 img {
-  width: 70%;
+  width: 30%;
   border: 5px groove brown;
   border-radius: 90px;
   padding: 20px 75px;
-  margin: 30px;
+  margin: 20px;
 }
 
 #salesTable {
